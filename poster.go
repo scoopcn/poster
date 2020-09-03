@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"os"
 	"strings"
 )
 
@@ -87,8 +88,11 @@ func handle(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("/", handle)
-
-	err := http.ListenAndServe("0.0.0.0:1230", nil)
+	port := "1230"
+	if len(os.Args) >= 2 {
+		port = os.Args[1]
+	}
+	err := http.ListenAndServe("0.0.0.0:"+port, nil)
 	if err != nil {
 		fmt.Println("cannot start server")
 	}
